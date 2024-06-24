@@ -13,7 +13,25 @@ import {
 
 const Home = () => {
 	const snap = useSnapshot(state);
-	return <div>Home</div>;
+	return (
+		<AnimatePresence>
+			{/* checks if we are on the home page */}
+			{snap.intro && (
+				<motion.section
+					className='home'
+					/* spreads the slideAnimation and it starts from the left */
+					{...slideAnimation('left')}>
+					<motion.header>
+						<img
+							src='./threejs.png'
+							alt='logo'
+							className='w-8 h-8 object-contain'
+						/>
+					</motion.header>
+				</motion.section>
+			)}
+		</AnimatePresence>
+	);
 };
 
 export default Home;
