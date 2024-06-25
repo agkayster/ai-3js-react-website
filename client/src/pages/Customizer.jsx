@@ -4,7 +4,7 @@ import { useSnapshot } from 'valtio';
 
 import config from '../config/config';
 import state from '../store';
-import { download } from '../assets';
+import { download, stylishShirt } from '../assets';
 import { downloadCanvasToImage, reader } from '../config/helpers';
 import { EditorTabs, FilterTabs, DecalTypes } from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
@@ -19,6 +19,31 @@ import {
 const Customizer = () => {
 	// use snap to pass in everything from our state management
 	const snap = useSnapshot(state);
+
+	//set up different states
+	const [file, setFile] = useState(null);
+	const [prompt, setPrompt] = useState('');
+	const [generatingImg, setGeneratingImg] = useState(false);
+	const [activeEditorTabs, setActiveEditorTabs] = useState('');
+	const [activeFilterTabs, setActiveFilterTabs] = useState({
+		logoShirt: true,
+		stylishShirt: false,
+	});
+
+	// show tab content depending on the active tab
+	const generateTabContent = () => {
+		switch (activeEditorTabs) {
+			case 'colorpicker':
+				return <ColorPicker />;
+			case 'filepicker':
+				return <FilePicker />;
+			case 'aipicker':
+				return <AIPicker />;
+
+			default:
+				return null;
+		}
+	};
 
 	return (
 		<AnimatePresence>
@@ -36,9 +61,12 @@ const Customizer = () => {
 										name={tab.name}
 										icon={tab.icon}
 										tab={tab}
-										handleClick={() => {}}
+										handleClick={() => {
+											setActiveEditorTabs(tab.name);
+										}}
 									/>
 								))}
+								{generateTabContent()}
 							</div>
 						</div>
 					</motion.div>
