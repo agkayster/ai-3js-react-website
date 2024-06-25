@@ -35,6 +35,7 @@ const Customizer = () => {
 										key={tab.icon}
 										name={tab.name}
 										icon={tab.icon}
+										tab={tab}
 										handleClick={() => {}}
 									/>
 								))}
@@ -59,6 +60,7 @@ const Customizer = () => {
 								key={tab.icon}
 								name={tab.name}
 								icon={tab.icon}
+								tab={tab}
 								isFilterTab
 								isActiveTab=''
 								handleClick={() => {}}
