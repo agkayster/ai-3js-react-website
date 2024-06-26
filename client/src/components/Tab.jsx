@@ -3,15 +3,7 @@ import { useSnapshot } from 'valtio';
 
 import state from '../store';
 
-const Tab = ({
-	key,
-	name,
-	tab,
-	icon,
-	handleClick,
-	isFilterTab,
-	isActiveTab,
-}) => {
+const Tab = ({ name, icon, handleClick, isFilterTab, isActiveTab }) => {
 	const snap = useSnapshot(state);
 
 	const activeStyles =
