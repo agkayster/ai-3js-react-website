@@ -77,6 +77,13 @@ const Customizer = () => {
 				state.isLogoTexture = true;
 				state.isFullTexture = false;
 		}
+
+		setActiveFilterTabs((prevState) => {
+			return {
+				...prevState,
+				[tabName]: !prevState[tabName],
+			};
+		});
 	};
 
 	// readFile function is passed into the FilePicker component above
