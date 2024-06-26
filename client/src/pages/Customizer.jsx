@@ -21,7 +21,7 @@ const Customizer = () => {
 	const snap = useSnapshot(state);
 
 	//set up different states
-	const [file, setFile] = useState(null);
+	const [file, setFile] = useState('');
 	const [prompt, setPrompt] = useState('');
 	const [generatingImg, setGeneratingImg] = useState(false);
 	const [activeEditorTabs, setActiveEditorTabs] = useState('');
@@ -36,13 +36,55 @@ const Customizer = () => {
 			case 'colorpicker':
 				return <ColorPicker />;
 			case 'filepicker':
-				return <FilePicker />;
+				return (
+					/* pass in our readFile function */
+					<FilePicker
+						file={file}
+						setFile={setFile}
+						readFile={readFile}
+					/>
+				);
 			case 'aipicker':
 				return <AIPicker />;
 
 			default:
 				return null;
 		}
+	};
+
+	// to toggle the logo and texture of the shirt model on and off
+	const handleDecals = (type, result) => {
+		const decalType = DecalTypes[type];
+
+		state[decalType.stateProperty] = result;
+
+		if (!activeFilterTabs[decalType.FilterTab]) {
+			handleActiveFilterTabs(decalType.FilterTab);
+		}
+	};
+
+	// checks whether we are showing the logo or not or whether we are showing both the logo and the texture
+	const handleActiveFilterTabs = (tabName) => {
+		switch (tabName) {
+			case 'logoShirt':
+				state.isLogoTexture = !activeFilterTabs[tabName];
+				break;
+			case 'stylishShirt':
+				state.isFullTexture = !activeFilterTabs[tabName];
+				break;
+
+			default:
+				state.isLogoTexture = true;
+				state.isFullTexture = false;
+		}
+	};
+
+	// readFile function is passed into the FilePicker component above
+	const readFile = (type) => {
+		reader(file).then((result) => {
+			handleDecals(type, result);
+			setActiveEditorTabs('');
+		});
 	};
 
 	return (
@@ -90,8 +132,10 @@ const Customizer = () => {
 								icon={tab.icon}
 								tab={tab}
 								isFilterTab
-								isActiveTab=''
-								handleClick={() => {}}
+								isActiveTab={activeFilterTabs[tab.name]}
+								handleClick={() => {
+									handleActiveFilterTabs(tab.name);
+								}}
 							/>
 						))}
 					</motion.div>
