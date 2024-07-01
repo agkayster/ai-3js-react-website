@@ -11,4 +11,34 @@ router.route('/').get((req, res) => {
 	res.status(200).json({ message: 'Hello from DALL.E ROUTES' });
 });
 
+const openai = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY,
+});
+
+router.route('/').post(async (req, res) => {
+	try {
+		// info we get when we type into ai prompt
+		const { prompt } = req.body;
+
+		// how to get AI response
+		const response = await openai.images.generate({
+			prompt,
+			n: 1, // number of images to generate
+			size: 1024 * 1024,
+			response_format: 'b64_json',
+		});
+
+		const image = response.data.data[0].b64_json;
+
+		// how we pass it back to frontend
+		res.status(200).json({ photo: image });
+	} catch (error) {
+		console.log('get error from dalle =>', error);
+		res.status(500).json({
+			message: 'Something went wrong',
+			error: error.message,
+		});
+	}
+});
+
 export default router;
