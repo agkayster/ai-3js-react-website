@@ -29,6 +29,7 @@ const Customizer = () => {
 		logoShirt: true,
 		stylishShirt: false,
 	});
+	const [windowOps, setWindowOps] = useState(false);
 
 	// show tab content depending on the active tab
 	const generateTabContent = () => {
@@ -51,6 +52,7 @@ const Customizer = () => {
 						setPrompt={setPrompt}
 						generatingImg={generatingImg}
 						handleSubmit={handleSubmit}
+						windowOps={windowOps}
 					/>
 				);
 
@@ -95,8 +97,8 @@ const Customizer = () => {
 
 		state[decalType.stateProperty] = result;
 
-		if (!activeFilterTabs[decalType.FilterTab]) {
-			handleActiveFilterTabs(decalType.FilterTab);
+		if (!activeFilterTabs[decalType.filterTab]) {
+			handleActiveFilterTabs(decalType.filterTab);
 		}
 	};
 
@@ -150,6 +152,7 @@ const Customizer = () => {
 										tab={tab}
 										handleClick={() => {
 											setActiveEditorTabs(tab.name);
+											setWindowOps(!windowOps);
 										}}
 									/>
 								))}
