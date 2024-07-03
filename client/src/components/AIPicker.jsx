@@ -12,6 +12,7 @@ const AIPicker = ({ prompt, setPrompt, generatingImg, handleSubmit }) => {
 				onChange={(e) => setPrompt(e.target.value)}
 			/>
 			<div className='flex flex-wrap gap-3'>
+				{/* if we are generating an image */}
 				{generatingImg ? (
 					<CustomButton
 						type='outline'
@@ -19,6 +20,7 @@ const AIPicker = ({ prompt, setPrompt, generatingImg, handleSubmit }) => {
 						customStyles='text-xs'
 					/>
 				) : (
+					// if we are not generating an image
 					<>
 						<CustomButton
 							type='outline'
