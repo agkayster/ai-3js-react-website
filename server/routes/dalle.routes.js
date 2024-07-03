@@ -19,16 +19,20 @@ router.route('/').post(async (req, res) => {
 	try {
 		// info we get when we type into ai prompt
 		const { prompt } = req.body;
+		console.log('get prompt =>', prompt);
 
 		// how to get AI response
 		const response = await openai.images.generate({
 			prompt,
 			n: 1, // number of images to generate
-			size: 1024 * 1024,
+			size: '1024x1024',
 			response_format: 'b64_json',
+			quality: 'standard',
 		});
+		console.log('get openai response =>', response);
 
-		const image = response.data.data[0].b64_json;
+		// const image = response.data.data[0].b64_json;
+		const image = response.data[0].b64_json;
 
 		// how we pass it back to frontend
 		res.status(200).json({ photo: image });

@@ -64,7 +64,23 @@ const Customizer = () => {
 
 		try {
 			// call our backend to generate an ai image
-			
+			setGeneratingImg(true);
+
+			const response = await fetch(`${config.development.backendUrl}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					prompt,
+				}),
+			});
+
+			// what we receive from the backend
+			const data = await response.json();
+			console.log('get data =>', data);
+
+			handleDecals(type, `data:image/png;base64, ${data.photo}`);
 		} catch (error) {
 			alert(error);
 		} finally {
@@ -73,7 +89,7 @@ const Customizer = () => {
 		}
 	};
 
-	// to toggle the logo and texture of the shirt model on and off
+	// to toggle the logo and texture of the shirt model on and off. This also makes changes/updates state in store folder that reflects on the Shirt component.
 	const handleDecals = (type, result) => {
 		const decalType = DecalTypes[type];
 
@@ -125,6 +141,7 @@ const Customizer = () => {
 						{...slideAnimation('left')}>
 						<div className='flex items-center min-h-screen'>
 							<div className='editortabs-container tabs'>
+								{/* buttons on the left of the screen */}
 								{EditorTabs.map((tab) => (
 									<Tab
 										key={tab.icon}
@@ -153,6 +170,7 @@ const Customizer = () => {
 					<motion.div
 						className='filtertabs-container'
 						{...slideAnimation('up')}>
+						{/* buttons on the bottom of the screen */}
 						{FilterTabs.map((tab) => (
 							<Tab
 								key={tab.icon}
