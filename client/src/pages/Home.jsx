@@ -35,7 +35,7 @@ const Home = () => {
 						{...headContainerAnimation}>
 						<motion.div {...headTextAnimation}>
 							<h1 className='head-text'>
-								LET'S <br className='xl:block hidden' /> DO IT
+								LET&apos;S <br className='xl:block hidden' /> DO IT
 							</h1>
 						</motion.div>
 						<motion.div
